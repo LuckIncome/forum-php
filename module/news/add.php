@@ -7,7 +7,7 @@ if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {
 $_POST['name'] = FormChars($_POST['name']);
 $_POST['text'] = FormChars($_POST['text']);
 $_POST['cat'] += 0;
-mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active)");
+mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, 0, '')");
 MessageSend(2, 'Новость добавлена', '/news');
 }
 Head('Добавить новость') ?>

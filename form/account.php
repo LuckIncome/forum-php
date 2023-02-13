@@ -146,7 +146,7 @@ else MessageSend(1, 'E-mail адрес <b>'.$_SESSION['USER_ACTIVE_EMAIL'].'</b>
 
 
 else if ($Module == 'login' and $_POST['enter']) {
-$_POST['login'] = FormChars($_POST['login']);
+$_POST['login'] = FormChars($_POST['login'], 1);
 $_POST['password'] = GenPass(FormChars($_POST['password']), $_POST['login']);
 $_POST['captcha'] = FormChars($_POST['captcha']);
 if (!$_POST['login'] or !$_POST['password'] or !$_POST['captcha']) MessageSend(1, 'Невозможно обработать форму.');

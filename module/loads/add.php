@@ -45,7 +45,7 @@ break;
 }
 }
 
-mysqli_query($CONNECT, "INSERT INTO `loads`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], 0, 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]')");
+mysqli_query($CONNECT, "INSERT INTO `loads`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], 0, 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]', 0, '')");
 MessageSend(2, 'Файл добавлен', '/loads');
 }
 Head('Добавить файл') ?>

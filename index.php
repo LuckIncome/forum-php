@@ -58,7 +58,7 @@ else if ($Page == 'user') include('page/user.php');
 else if ($Page == 'parser') include('page/parser.php');
 else if ($Page == 'search') include('page/search.php');
 else if ($Page == 'notice') include('page/notice.php');
-
+else if ($Page == 'rate') include('form/rate.php');
 
 
 
@@ -180,8 +180,10 @@ return $Explode[0].'@*****';
 }
 
 
-function FormChars ($p1) {
-return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
+function FormChars($p1, $p2 = 0) {
+global $CONNECT;
+if ($p2) return mysqli_real_escape_string($CONNECT, $p1);
+else return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
 }
 
 
