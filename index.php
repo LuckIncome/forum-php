@@ -44,6 +44,11 @@ else if ($Page == 'account') include('form/account.php');
 else if ($Page == 'profile') include('page/profile.php');
 else if ($Page == 'restore') include('page/restore.php');
 else if ($Page == 'chat') include('page/chat.php');
+else if ($Page == 'user') include('page/user.php');
+else if ($Page == 'parser') include('page/parser.php');
+else if ($Page == 'search') include('page/search.php');
+
+
 
 else if ($Page == 'news') {
 if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and $Module == 'main') include('module/news/main.php');
@@ -86,9 +91,7 @@ $_SESSION['ADMIN_LOGIN_IN'] = 1;
 MessageSend(3, 'Вход в Админ панель выполнен успешно.', '/admin');
 }
 }
-}
-
-
+} 
 
 
 function ULogin($p1) {
@@ -212,6 +215,11 @@ imagedestroy($Scr);
 imagedestroy($Tmp);
 }
 
+
+function SearchForm() {
+global $Page;
+echo '<form method="POST" action="/search/'.$Page.'"><input type="text" name="text" value="'.$_SESSION['SEARCH'].'" placeholder="Что искать?" required><input type="submit" name="enter" value="Поиск"></form>';	
+}
 
 function AdminMenu () {
 echo '<div class="MenuHead"><a href="/admin"><div class="Menu">Главная</div></a><a href="/admin/stats"><div class="Menu">Статистика</div></a><a href="/admin/query/logout/1"><div class="Menu">Выход</div></a></div>';

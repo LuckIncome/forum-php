@@ -16,6 +16,7 @@ MessageShow()
 <a href="/news/category/id/1"><div class="Cat">Категория 1</div></a>
 <a href="/news/category/id/2"><div class="Cat">Категория 2</div></a>
 <a href="/news/category/id/3"><div class="Cat">Категория 3</div></a>
+<?php SearchForm() ?>
 </div>
 
 <div class="Page">

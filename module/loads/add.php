@@ -19,8 +19,8 @@ $_POST['link'] = 0;
 } else $num_file = 0;
 
 
-$MaxId = mysqli_fetch_row(mysqli_query($CONNECT, 'SELECT max(`id`) FROM `load`'));
-if ($MaxId[0] == 0) mysqli_query($CONNECT, 'ALTER TABLE `load` AUTO_INCREMENT = 1');
+$MaxId = mysqli_fetch_row(mysqli_query($CONNECT, 'SELECT max(`id`) FROM `loads`'));
+if ($MaxId[0] == 0) mysqli_query($CONNECT, 'ALTER TABLE `loads` AUTO_INCREMENT = 1');
 $MaxId[0] += 1;
 
 foreach(glob('catalog/img/*', GLOB_ONLYDIR) as $num => $Dir) {
@@ -45,7 +45,7 @@ break;
 }
 }
 
-mysqli_query($CONNECT, "INSERT INTO `load`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], 0, 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]')");
+mysqli_query($CONNECT, "INSERT INTO `loads`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], 0, 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]')");
 MessageSend(2, 'Файл добавлен', '/loads');
 }
 Head('Добавить файл') ?>

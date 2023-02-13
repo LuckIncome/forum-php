@@ -1,7 +1,7 @@
 <?php 
 $Param['id'] += 0;
 if ($Param['id'] == 0) MessageSend(1, 'URL адрес указан неверно.', '/loads');
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `name`, `added`, `date`, `read`, `text`, `active`, `download`, `dimg`, `dfile`, `link` FROM `load` WHERE `id` = '.$Param['id']));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `name`, `added`, `date`, `read`, `text`, `active`, `download`, `dimg`, `dfile`, `link` FROM `loads` WHERE `id` = '.$Param['id']));
 if (!$Row['name']) MessageSend(1, 'Такой новости не существует.', '/loads');
 if (!$Row['active'] and $_SESSION['USER_GROUP'] != 2) MessageSend(1, 'Новость ожидает модерации.', '/loads');
 
@@ -10,7 +10,7 @@ if ($Row['link'] and !$Row['dfile']) $Download = $Row['link'];
 else $Download = '/loads/download/id/'.$Param['id'];
 
 
-mysqli_query($CONNECT, 'UPDATE `load` SET `read` = `read` + 1 WHERE `id` = '.$Param['id']);
+mysqli_query($CONNECT, 'UPDATE `loads` SET `read` = `read` + 1 WHERE `id` = '.$Param['id']);
 Head($Row['name']);
 ?>
 <body>

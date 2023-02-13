@@ -2,7 +2,7 @@
 UAccess(2);
 $Param['id'] += 0;
 if (!$Param['id']) MessageSend(1, 'Не указан ID материала', '/loads');
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `cat`, `name`, `text`, `dfile`, `dimg` FROM `load` WHERE `id` = $Param[id]"));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `cat`, `name`, `text`, `dfile`, `dimg` FROM `loads` WHERE `id` = $Param[id]"));
 if (!$Row['name']) MessageSend(1, 'Материал не найдена', '/loads');
 if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {
 $_POST['name'] = FormChars($_POST['name']);
@@ -10,7 +10,7 @@ $_POST['text'] = FormChars($_POST['text']);
 $_POST['cat'] += 0;
 if ($_FILES['file']['tmp_name']) move_uploaded_file($_FILES['file']['tmp_name'], 'catalog/file/'.$Row['dfile'].'/'.$Param['id'].'.zip');
 if ($_FILES['img']['tmp_name']) move_uploaded_file($_FILES['img']['tmp_name'], 'catalog/img/'.$Row['dimg'].'/'.$Param['id'].'.jpg');
-mysqli_query($CONNECT, "UPDATE `load` SET `name` = '$_POST[name]', `cat` = $_POST[cat], `text` = '$_POST[text]' WHERE `id` = $Param[id]");
+mysqli_query($CONNECT, "UPDATE `loads` SET `name` = '$_POST[name]', `cat` = $_POST[cat], `text` = '$_POST[text]' WHERE `id` = $Param[id]");
 MessageSend(2, 'Материал отредактирован.', '/loads/material/id/'.$Param['id']);
 }
 

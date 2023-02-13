@@ -16,21 +16,22 @@ MessageShow()
 <a href="/loads/category/id/1"><div class="Cat">Категория 1</div></a>
 <a href="/loads/category/id/2"><div class="Cat">Категория 2</div></a>
 <a href="/loads/category/id/3"><div class="Cat">Категория 3</div></a>
+<?php SearchForm() ?>
 </div>
 
 <div class="Page">
 <?php 
 if (!$Module or $Module == 'main') {
 if ($_SESSION['USER_GROUP'] != 2) $Active = 'WHERE `active` = 1';
-$Param1 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `load` '.$Active.' ORDER BY `id` DESC LIMIT 0, 5';
-$Param2 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `load` '.$Active.' ORDER BY `id` DESC LIMIT START, 5';
-$Param3 = 'SELECT COUNT(`id`) FROM `load`';
+$Param1 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `loads` '.$Active.' ORDER BY `id` DESC LIMIT 0, 5';
+$Param2 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `loads` '.$Active.' ORDER BY `id` DESC LIMIT START, 5';
+$Param3 = 'SELECT COUNT(`id`) FROM `loads`';
 $Param4 = '/loads/main/page/';
 } else if ($Module == 'category') {
 if ($_SESSION['USER_GROUP'] != 2) $Active = 'AND `active` = 1';
-$Param1 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `load` WHERE `cat` = '.$Param['id'].' '.$Active.' ORDER BY `id` DESC LIMIT 0, 5';
-$Param2 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `load` WHERE `cat` = '.$Param['id'].' '.$Active.' ORDER BY `id` DESC LIMIT START, 5';
-$Param3 = 'SELECT COUNT(`id`) FROM `load` WHERE `cat` = '.$Param['id'];
+$Param1 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `loads` WHERE `cat` = '.$Param['id'].' '.$Active.' ORDER BY `id` DESC LIMIT 0, 5';
+$Param2 = 'SELECT `id`, `name`, `added`, `date`, `active` FROM `loads` WHERE `cat` = '.$Param['id'].' '.$Active.' ORDER BY `id` DESC LIMIT START, 5';
+$Param3 = 'SELECT COUNT(`id`) FROM `loads` WHERE `cat` = '.$Param['id'];
 $Param4 = '/loads/category/id/'.$Param['id'].'/page/';
 }
 

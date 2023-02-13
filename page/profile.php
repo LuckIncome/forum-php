@@ -33,9 +33,10 @@ ID '.$_SESSION['USER_ID'].' ('.UserGroup($_SESSION['USER_GROUP']).')
 <br><input type="file" name="avatar">
 <br><br><input type="submit" name="enter" value="Сохранить"> <input type="reset" value="Очистить">
 </form>
-</div>
-';
+</div>';
 ?>
+
+
 
 
 </div>
