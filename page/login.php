@@ -1,22 +1,25 @@
 <?php 
 if ($_POST['enter']) {
-echo 'Запрос на логин...';
+echo 'Запрос...';
 exit;
 }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Страница Входа</title>
-</head>
 
+Head('Вход') ?>
 <body>
-Заполните форму:
+<div class="wrapper">
+<div class="header"></div>
+<div class="content">
+<?php Menu() ?>
+<div class="Page">
 <form method="POST" action="/login">
-<br><input type="text" name="login" required> - Логин
-<br><input type="password" name="password" required> -Пароль
+<br><input type="text" name="login" placeholder="Логин" required>
+<br><input type="password" name="password" placeholder="Пароль" required>
 <br><br><input type="submit" name="enter" value="Вход"> <input type="reset" value="Очистить">
 </form>
+</div>
+</div>
+
+<?php Footer() ?>
+</div>
 </body>
 </html>

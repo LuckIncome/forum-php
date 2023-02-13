@@ -3,22 +3,26 @@ if ($_POST['enter']) {
 echo 'Запрос...';
 exit;
 }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Страница регистрации</title>
-</head>
 
+Head('Регистрация') ?>
 <body>
-Заполните форму:
+<div class="wrapper">
+<div class="header"></div>
+<div class="content">
+<?php Menu() ?>
+<div class="Page">
 <form method="POST" action="/register">
-<br><input type="text" name="login" required> - Логин
-<br><input type="email" name="email" required> - E-Mail
-<br><input type="password" name="password" required> -Пароль
-<br><input type="text" name="name" required> - Имя
+<br><input type="text" name="login" placeholder="Логин" required>
+<br><input type="email" name="email" placeholder="E-Mail" required>
+<br><input type="password" name="password" placeholder="Пароль" required>
+<br><input type="text" name="name" placeholder="Имя" required>
+<br><input type="file" name="avatar">
 <br><br><input type="submit" name="enter" value="Регистрация"> <input type="reset" value="Очистить">
 </form>
+</div>
+</div>
+
+<?php Footer() ?>
+</div>
 </body>
 </html>
