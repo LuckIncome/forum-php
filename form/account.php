@@ -8,9 +8,47 @@ session_unset();
 exit(header('Location: /login'));
 }
 
+
+if ($Module == 'edit' and $_POST['enter']) {
+ULogin(1);
+$_POST['opassword'] = FormChars($_POST['opassword']);
+$_POST['npassword'] = FormChars($_POST['npassword']);
+$_POST['name'] = FormChars($_POST['name']);
+$_POST['country'] = FormChars($_POST['country']);
+
+if ($_POST['opassword'] or $_POST['npassword']) {
+if (!$_POST['opassword']) MessageSend(2, 'Не указан старый пароль');
+if (!$_POST['npassword']) MessageSend(2, 'Не указан новый пароль');
+if ($_SESSION['USER_PASSWORD'] != GenPass($_POST['opassword'], $_SESSION['USER_LOGIN'])) MessageSend(2, 'Старый пароль указан не верно.');
+$Password = GenPass($_POST['npassword'], $_SESSION['USER_LOGIN']);
+mysqli_query($CONNECT, "UPDATE `users`  SET `password` = '$Password' WHERE `id` = $_SESSION[USER_ID]");
+$_SESSION['USER_PASSWORD'] = $Password;
+}
+
+
+if ($_POST['name'] != $_SESSION['USER_NAME']) {
+mysqli_query($CONNECT, "UPDATE `users`  SET `name` = '$_POST[name]' WHERE `id` = $_SESSION[USER_ID]");
+$_SESSION['USER_NAME'] = $_POST['name'];
+}
+
+
+if (UserCountry($_POST['country']) != $_SESSION['USER_COUNTRY']) {
+mysqli_query($CONNECT, "UPDATE `users`  SET `country` = $_POST[country] WHERE `id` = $_SESSION[USER_ID]");
+$_SESSION['USER_COUNTRY'] = UserCountry($_POST['country']);
+}
+
+MessageSend(3, 'Данные изменены.');
+}
+
+
+
+
+
+
+
+
+
 ULogin(0);
-
-
 if ($Module == 'restore' and !$Param['code'] and substr($_SESSION['RESTORE'], 0, 4) == 'wait') MessageSend(2, 'Вы уже отправили заявку на восстановление пароля. Проверьте ваш E-mail адрес <b>'.HideEmail(substr($_SESSION['RESTORE'], 5)).'</b>');
 if ($Module == 'restore' and $_SESSION['RESTORE'] and substr($_SESSION['RESTORE'], 0, 4) != 'wait') MessageSend(2, 'Ваш пароль ранее уже был изменен. Для входа используйте нвоый пароль <b>'.$_SESSION['RESTORE'].'</b>', '/login');
 
@@ -18,8 +56,8 @@ if ($Module == 'restore' and $_SESSION['RESTORE'] and substr($_SESSION['RESTORE'
 
 
 if ($Module == 'restore' and $Param['code']) {
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `login` FROM `users` WHERE `id` = '.str_replace(md5('YouTube'), '', $Param['code'])));
-if (!$Row['login']) MessageSend(1, 'Невозможно восстановить пароль.', '/login');
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `email` FROM `users` WHERE `id` = '.str_replace(md5($Row['email']), '', $Param['code'])));
+if (!$Row['email']) MessageSend(1, 'Невозможно восстановить пароль.', '/login');
 $Random = RandomString(15);
 $_SESSION['RESTORE'] = $Random;
 mysqli_query($CONNECT, "UPDATE `users` SET `password` = '".GenPass($Random, $Row['login'])."' WHERE `login` = '$Row[login]'");
@@ -35,7 +73,7 @@ if (!$_POST['login'] or !$_POST['captcha']) MessageSend(1, 'Невозможно
 if ($_SESSION['captcha'] != md5($_POST['captcha'])) MessageSend(1, 'Капча введена не верно.');
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `email` FROM `users` WHERE `login` = '$_POST[login]'"));
 if (!$Row['email']) MessageSend(1, 'Пользователь не найден.');
-mail($Row['email'], 'Mr.Shift', 'Ссылка для восстановления: http://mr-shift.ru/account/restore/code/'.md5('YouTube').$Row['id'], 'From: web@mr-shift.ru');
+mail($Row['email'], 'Mr.Shift', 'Ссылка для восстановления: http://mr-shift.ru/account/restore/code/'.md5($Row['email']).$Row['id'], 'From: web@mr-shift.ru');
 $_SESSION['RESTORE'] = 'wait_'.$Row['email'];
 MessageSend(2, 'На ваш E-mail адрес <b>'.HideEmail($Row['email']).'</b> отправлено подтерждение смены пароля');
 }
@@ -56,7 +94,7 @@ if ($Row['login']) exit('Логин <b>'.$_POST['login'].'</b> уже испол
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `email` FROM `users` WHERE `email` = '$_POST[email]'"));
 if ($Row['email']) exit('E-Mail <b>'.$_POST['email'].'</b> уже используеться.');
 mysqli_query($CONNECT, "INSERT INTO `users`  VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', $_POST[country], 0, 0)");
-$Code = substr(base64_encode($_POST['email']), 0, -1);
+$Code = str_replace('=', '', base64_encode($_POST['email']));
 mail($_POST['email'], 'Регистрация на блоге Mr.Shift', 'Ссылка для активации: http://mr-shift.ru/account/activate/code/'.substr($Code, -5).substr($Code, 0, -5), 'From: web@mr-shift.ru');
 MessageSend(3, 'Регистрация акаунта успешно завершена. На указанный E-mail адрес <b>'.$_POST['email'].'</b> отправленно письмо о подтверждении регистрации.');
 }
@@ -86,7 +124,9 @@ if ($_SESSION['captcha'] != md5($_POST['captcha'])) MessageSend(1, 'Капча �
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `password`, `active` FROM `users` WHERE `login` = '$_POST[login]'"));
 if ($Row['password'] != $_POST['password']) MessageSend(1, 'Не верный логин или пароль.');
 if ($Row['active'] == 0) MessageSend(1, 'Аккаунт пользователя <b>'.$_POST['login'].'</b> не подтвержден.');
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar` FROM `users` WHERE `login` = '$_POST[login]'"));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `password`, `login` FROM `users` WHERE `login` = '$_POST[login]'"));
+$_SESSION['USER_LOGIN'] = $Row['login'];
+$_SESSION['USER_PASSWORD'] = $Row['password'];
 $_SESSION['USER_ID'] = $Row['id'];
 $_SESSION['USER_NAME'] = $Row['name'];
 $_SESSION['USER_REGDATE'] = $Row['regdate'];
