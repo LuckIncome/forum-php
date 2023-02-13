@@ -4,7 +4,8 @@ session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
 if ($_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']) {
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
+$_SESSION['USER_LOGIN'] = $Row['login'];
 $_SESSION['USER_ID'] = $Row['id'];
 $_SESSION['USER_NAME'] = $Row['name'];
 $_SESSION['USER_REGDATE'] = $Row['regdate'];
@@ -41,6 +42,7 @@ else if ($Page == 'register') include('page/register.php');
 else if ($Page == 'account') include('form/account.php');
 else if ($Page == 'profile') include('page/profile.php');
 else if ($Page == 'restore') include('page/restore.php');
+else if ($Page == 'chat') include('page/chat.php');
 
 
 
@@ -107,7 +109,7 @@ echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><
 
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
-else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a>';
+else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a>';
 echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a>'.$Menu.'</div>';
 }
 
