@@ -162,15 +162,22 @@ echo '</div>';
 
 
 
-
-
-
-
-
-
-
-
-
+function MiniIMG($p1, $p2, $p3, $p4, $p5 = 50) {
+/*
+$p1 - Путь к изображению, которое нужно уменьшить.
+$p2 - Директория, куда будет сохранена уменьшенная копия.
+$p3 - Ширина уменьшенной копии.
+$p4 - Высота уменьшенной копии.
+$p5 - Качество уменьшенной копии.
+*/
+$Scr = imagecreatefromjpeg($p1);
+$Size = getimagesize($p1);
+$Tmp = imagecreatetruecolor($p3, $p4);
+imagecopyresampled($Tmp, $Scr, 0, 0, 0, 0, $p3, $p4, $Size[0], $Size[1]);
+imagejpeg($Tmp, $p2, $p5);
+imagedestroy($Scr);
+imagedestroy($Tmp);
+}
 
 
 

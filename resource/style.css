@@ -1,7 +1,7 @@
 * {margin: 0; padding: 0 }
 body {font: 12px/18px Arial, sans-serif; width: 100%; background: url(/resource/img/bg.jpg) top center no-repeat}
 a {color: #fff; font-weight: bold; text-decoration:none}
-input[type=text], input[type=password], input[type=email] {height: 15px; width: 200px; padding: 5px; margin-bottom: 5px}
+input[type=text], input[type=password], input[type=email], input[type=url] {height: 15px; width: 200px; padding: 5px; margin-bottom: 5px}
 input[type=submit], input[type=reset], .button {color: #fff; background: #D44B38; padding: 8px; border: 1px solid #A83B2D; font-weight: normal} 
 input[type=submit]:hover, input[type=reset]:hover, .button:hover  { background: #E85F4C}
 select {height:30px; margin-bottom: 5px;}
@@ -10,7 +10,7 @@ textarea {resize: none}
 
 .wrapper {width: 1000px; margin: 0 auto}
 .header {width: 1000px; height: 150px; background: url(/resource/img/logo.png)}
-.content {width: 1000px; height: 550px; background: #fff}
+.content {width: 1000px; min-height: 550px; background: #fff}
 
 .MenuHead {width: 1000px; height: 60px; background: #35886E}
 .Menu {float:left; display: inline-block;  height: 20px; background: #35886E; padding: 20px; color: #fff; font-size: 20px}
@@ -48,6 +48,6 @@ textarea {resize: none}
 
 .Add {width: 800px; height: 300px}
 .lol {color: #000}
-.Add_L {height: 200px; width: 800px;}
+.Add_L {height: 200px; width: 800px}
 
-
+.lm {width: 220px; height: 220px; margin: 0 15px 15px 0}

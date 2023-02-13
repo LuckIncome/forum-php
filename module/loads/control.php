@@ -7,7 +7,8 @@ if ($Param['command'] == 'delete') {
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `dfile`, `dimg` FROM `load` WHERE `id` = $Param[id]"));
 mysqli_query($CONNECT, "DELETE FROM `load` WHERE `id` = $Param[id]");
 unlink('catalog/img/'.$Row['dimg'].'/'.$Param['id'].'.jpg');
-unlink('catalog/file/'.$Row['dfile'].'/'.$Param['id'].'.zip');
+unlink('catalog/mini/'.$Row['dimg'].'/'.$Param['id'].'.jpg');
+if ($Row['dfile']) unlink('catalog/file/'.$Row['dfile'].'/'.$Param['id'].'.zip');
 MessageSend(3, 'Материал удален.', '/loads');
 
 } else if ($Param['command'] == 'active') {
