@@ -20,13 +20,30 @@ MessageShow()
 <?php 
 if (!$Module or $Module == 'main') {
 $Param1 = 'SELECT `id`, `name`, `added`, `date` FROM `news` ORDER BY `id` DESC LIMIT 0, 5';
+$Param2 = 'SELECT `id`, `name`, `added`, `date` FROM `news` ORDER BY `id` DESC LIMIT START, 5';
+$Param3 = 'SELECT COUNT(`id`) FROM `news`';
+$Param4 = '/news/main/page/';
 } else if ($Module == 'category') {
 $Param1 = 'SELECT `id`, `name`, `added`, `date` FROM `news` WHERE `cat` = '.$Param['id'].' ORDER BY `id` DESC LIMIT 0, 5';
+$Param2 = 'SELECT `id`, `name`, `added`, `date` FROM `news` WHERE `cat` = '.$Param['id'].' ORDER BY `id` DESC LIMIT START, 5';
+$Param3 = 'SELECT COUNT(`id`) FROM `news` WHERE `cat` = '.$Param['id'];
+$Param4 = '/news/category/id/'.$Param['id'].'/page/';
+}
+
+$Count = mysqli_fetch_row(mysqli_query($CONNECT, $Param3));
+
+if (!$Param['page']) {
+$Param['page'] = 1;
+$Result = mysqli_query($CONNECT, $Param1);
+} else {
+$Start = ($Param['page'] - 1) * 5;
+$Result = mysqli_query($CONNECT, str_replace('START', $Start, $Param2));
 }
 
 
-$Query = mysqli_query($CONNECT, $Param1);
-while ($Row = mysqli_fetch_assoc($Query)) echo '<a href="/news/material/id/'.$Row['id'].'"><div class="ChatBlock"><span>Добавил: '.$Row['added'].' | '.$Row['date'].'</span>'.$Row['name'].'</div></a>';
+PageSelector($Param4, $Param['page'], $Count);
+
+while ($Row = mysqli_fetch_assoc($Result)) echo '<a href="/news/material/id/'.$Row['id'].'"><div class="ChatBlock"><span>Добавил: '.$Row['added'].' | '.$Row['date'].'</span>'.$Row['name'].'</div></a>';
 ?>
 </div>
 </div>

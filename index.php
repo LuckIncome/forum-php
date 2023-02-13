@@ -112,6 +112,43 @@ echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><
 }
 
 
+
+function PageSelector($p1, $p2, $p3, $p4 = 5) {
+/*
+$p1 - URL (Например: /news/main/page)
+$p2 - Текущая страница (из $Param['page'])
+$p3 - Кол-во новостей
+$p4 - Кол-во записей на странице
+*/
+$Page = $p3[0] / $p4; //делим кол-во новостей на кол-во записей на странице.
+if ($Page > 1) { //А нужен ли переключатель?
+echo '<div class="PageSelector">';
+for($i = ($p2 - 3); $i < ($Page + 1); $i++) {
+if ($i > 0 and $i <= ($p2 + 3)) {
+if ($p2 == $i) $Swch = 'SwchItemCur';
+else $Swch = 'SwchItem';
+echo '<a class="'.$Swch.'" href="'.$p1.$i.'">'.$i.'</a>';
+}
+}
+echo '</div>';
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
 else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a>';
