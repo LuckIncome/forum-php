@@ -59,11 +59,8 @@ else if ($Module == 'material') include('module/loads/material.php');
 else if ($Module == 'add') include('module/loads/add.php');
 else if ($Module == 'edit') include('module/loads/edit.php');
 else if ($Module == 'control') include('module/loads/control.php');
+else if ($Module == 'download') include('module/loads/download.php');
 }
-
-
-
-
 
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
@@ -185,6 +182,6 @@ echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></
 }
 
 function Footer () {
-echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP</footer>';
+echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> - Всем рекомендую! Покупай здесь...</footer>';
 }
 ?>

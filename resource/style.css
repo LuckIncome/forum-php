@@ -6,6 +6,8 @@ input[type=submit], input[type=reset], .button {color: #fff; background: #D44B38
 input[type=submit]:hover, input[type=reset]:hover, .button:hover  { background: #E85F4C}
 select {height:30px; margin-bottom: 5px;}
 
+textarea {resize: none}
+
 .wrapper {width: 1000px; margin: 0 auto}
 .header {width: 1000px; height: 150px; background: url(/resource/img/logo.png)}
 .content {width: 1000px; height: 550px; background: #fff}
@@ -16,7 +18,6 @@ select {height:30px; margin-bottom: 5px;}
 
 .CatHead {width: 1000px; height: 40px; background: #A83B2D}
 .Cat {float:left; display: inline-block;  height: 10px; background: #A83B2D; padding: 10px; color: #fff; font-size: 10px}
-
 
 
 
@@ -47,3 +48,6 @@ select {height:30px; margin-bottom: 5px;}
 
 .Add {width: 800px; height: 300px}
 .lol {color: #000}
+.Add_L {height: 200px; width: 800px;}
+
+

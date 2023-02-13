@@ -1,4 +1,6 @@
 <?php 
+if ($_SESSION['USER_GROUP'] != 2) MessageSend(2, 'Друзья, я отключил возможность добавления файлов для вас, дабы не возникало горы заявок :) Всем добра.', '/loads');
+
 if ($_SESSION['USER_GROUP'] == 2) $Active = 1;
 else $Active = 0;
 if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {
@@ -7,8 +9,8 @@ if ($_FILES['file']['type'] != 'application/octet-stream') MessageSend(2, 'Не 
 $_POST['name'] = FormChars($_POST['name']);
 $_POST['text'] = FormChars($_POST['text']);
 $_POST['cat'] += 0;
-
 $MaxId = mysqli_fetch_row(mysqli_query($CONNECT, 'SELECT max(`id`) FROM `load`'));
+if ($MaxId[0] == 0) mysqli_query($CONNECT, 'ALTER TABLE `load` AUTO_INCREMENT = 1');
 $MaxId[0] += 1;
 
 foreach(glob('catalog/img/*', GLOB_ONLYDIR) as $num => $Dir) {
@@ -45,9 +47,9 @@ MessageShow()
 <form method="POST" action="/loads/add" enctype="multipart/form-data">
 <input type="text" name="name" placeholder="Название материала" required>
 <br><select size="1" name="cat"><option value="1">Категория 1</option><option value="2">Категория 2</option><option value="3">Категория 3</option></select>
-<br><input type="file" name="file"> (Файл)
-<br><input type="file" name="img"> (Изображение)
-<br><textarea class="Add" name="text" required></textarea>
+<br><br><input type="file" name="file" required> (Файл)
+<br><br><input type="file" name="img" required> (Изображение)
+<br><br><textarea class="Add_L" name="text" required></textarea>
 <br><input type="submit" name="enter" value="Добавить"> <input type="reset" value="Очистить">
 </form>
 </div>
