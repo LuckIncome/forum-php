@@ -86,8 +86,8 @@ if ($Module == 'restore' and $_SESSION['RESTORE'] and substr($_SESSION['RESTORE'
 
 
 if ($Module == 'restore' and $Param['code']) {
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `email` FROM `users` WHERE `id` = '.str_replace(md5($Row['email']), '', $Param['code'])));
-if (!$Row['email']) MessageSend(1, 'Невозможно восстановить пароль.', '/login');
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, 'SELECT `login` FROM `users` WHERE `id` = '.str_replace(md5(substr($_SESSION['RESTORE'], 5)), '', $Param['code'])));
+if (!$Row['login']) MessageSend(1, 'Невозможно восстановить пароль.', '/login');
 $Random = RandomString(15);
 $_SESSION['RESTORE'] = $Random;
 mysqli_query($CONNECT, "UPDATE `users` SET `password` = '".GenPass($Random, $Row['login'])."' WHERE `login` = '$Row[login]'");

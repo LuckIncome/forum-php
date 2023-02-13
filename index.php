@@ -50,6 +50,7 @@ if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and
 else if ($Module == 'material') include('module/news/material.php');
 else if ($Module == 'add') include('module/news/add.php');
 else if ($Module == 'edit') include('module/news/edit.php');
+else if ($Module == 'control') include('module/news/control.php');
 }
 
 function ULogin($p1) {
@@ -96,7 +97,7 @@ else if ($p1 == -1) return 'Заблокирован';
 
 
 function UAccess($p1) {
-if ($_SESSION['USER_GROUP'] < $p1) MessageSend(1, 'У вас нет прав доступа для просмотра данной страницйы сайта', '/');
+if ($_SESSION['USER_GROUP'] < $p1) MessageSend(1, 'У вас нет прав доступа для просмотра данной страницйы сайта.', '/');
 }
 
 
@@ -123,8 +124,9 @@ return md5('MRSHIFT'.md5('321'.$p1.'123').md5('678'.$p2.'890'));
 
 
 function Head($p1) {
-echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"></head>';
+echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"><link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon"></head>';
 }
+
 
 
 

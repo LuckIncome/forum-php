@@ -8,7 +8,7 @@ select {height:30px; margin-bottom: 5px;}
 
 .wrapper {width: 1000px; margin: 0 auto}
 .header {width: 1000px; height: 150px; background: url(/resource/img/logo.png)}
-.content {width: 1000px; height: 500px; background: #fff}
+.content {width: 1000px; height: 550px; background: #fff}
 
 .MenuHead {width: 1000px; height: 60px; background: #35886E}
 .Menu {float:left; display: inline-block;  height: 20px; background: #35886E; padding: 20px; color: #fff; font-size: 20px}

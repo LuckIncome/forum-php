@@ -1,10 +1,12 @@
 <?php 
-UAccess(2);
+ULogin(1);
+if ($_SESSION['USER_GROUP'] == 2) $Active = 1;
+else $Active = 0;
 if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {
 $_POST['name'] = FormChars($_POST['name']);
 $_POST['text'] = FormChars($_POST['text']);
 $_POST['cat'] += 0;
-mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW())");
+mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active)");
 MessageSend(2, 'Новость добавлена', '/news');
 }
 Head('Добавить новость') ?>
