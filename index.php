@@ -1,12 +1,12 @@
 <?php
+
+
 include_once 'setting.php';
 session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
 $_COOKIE['user'] = FormChars($_COOKIE['user'], 1);
 
-
-if ($_SESSION['USER_LOGIN'] == 'olol') mysqli_query($CONNECT, "INSERT INTO `test` VALUES ('', '', '$_SERVER[REMOTE_ADDR] | $_SERVER[HTTP_X_REAL_IP] | $_SERVER[HTTP_X_FORWARDED_FOR]', NOW(), '')");
 
 
 if (!$_SESSION['USER_LOGIN_IN'] and $_COOKIE['user']) {
@@ -49,12 +49,53 @@ if ($Page != 'notice') {
 $Num = mysqli_fetch_row(mysqli_query($CONNECT, "SELECT COUNT(`id`) FROM `notice` WHERE `status` = 0 AND `uid` = $_SESSION[USER_ID]"));
 if ($Num[0]) MessageSend(2, 'У вас есть непрочитанные уведомления. <a href="/notice">Прочитать ( <b>'.$Num[0].'</b> )</a>', '', 0);
 }
-}
+
+
 
 
 
 $Count = mysqli_fetch_row(mysqli_query($CONNECT, "SELECT COUNT(`id`) FROM `dialog` WHERE `recive` = $_SESSION[USER_ID] AND `status` = 0"));
 if ($Count[0]) MessageSend(2, 'У вас есть непрочитанные диалоги ( <b>'.$Count[0].'</b> )', '', 0);
+}
+
+
+
+
+
+
+
+
+
+
+if ($_SESSION['USER_LOGIN_IN']) $User = $_SESSION['USER_LOGIN'];
+else $User = 'guest';
+
+
+
+
+
+if ($User == 'guest') $Online = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `ip` FROM `online` WHERE `ip` = '$_SERVER[REMOTE_ADDR]'"));
+else $Online = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `user` FROM `online` WHERE `user` = '$User'"));
+
+
+
+
+
+if ($Online['ip']) mysqli_query($CONNECT, "UPDATE `online` SET `time` = NOW() WHERE `ip` = '$_SERVER[REMOTE_ADDR]'");
+else if ($Online['user'] and $Online['user'] != 'guest') mysqli_query($CONNECT, "UPDATE `online` SET `time` = NOW() WHERE `user` = '$User'");
+else mysqli_query($CONNECT, "INSERT INTO `online` SET `ip` = '$_SERVER[REMOTE_ADDR]', `user` = '$User', `time` = NOW()");
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
