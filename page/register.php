@@ -1,4 +1,6 @@
-<?php Head('Регистрация') ?>
+<?php 
+ULogin(0);
+Head('Регистрация') ?>
 <body>
 <div class="wrapper">
 <div class="header"></div>

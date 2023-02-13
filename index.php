@@ -26,11 +26,18 @@ $Param[$URL_Parts[$i]] = $URL_Parts[++$i];
 
 
 
-
 if ($Page == 'index') include('page/index.php');
 else if ($Page == 'login') include('page/login.php');
 else if ($Page == 'register') include('page/register.php');
 else if ($Page == 'account') include('form/account.php');
+else if ($Page == 'profile') include('page/profile.php');
+
+
+
+function ULogin($p1) {
+if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
+else if ($_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная сртаница доступна только для пользователей.', '/');
+}
 
 
 
@@ -52,6 +59,15 @@ $_SESSION['message'] = array();
 }
 
 
+function UserCountry($p1) {
+if ($p1 == 0) return 'Не указан';
+else if ($p1 == 1) return 'Украина';
+else if ($p1 == 2) return 'Россия';
+else if ($p1 == 3) return 'США';
+else if ($p1 == 4) return 'Канада';
+}
+
+
 
 function FormChars ($p1) {
 return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
@@ -69,7 +85,9 @@ echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><
 
 
 function Menu () {
-echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a></div>';
+if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a>';
+else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a>';
+echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a>'.$Menu.'</div>';
 }
 
 function Footer () {
