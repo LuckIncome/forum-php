@@ -1,11 +1,12 @@
 <?php
 
-
 include_once 'setting.php';
 session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
 $_COOKIE['user'] = FormChars($_COOKIE['user'], 1);
+
+
 
 
 
@@ -113,6 +114,7 @@ else if ($Page == 'search') include('page/search.php');
 else if ($Page == 'notice') include('page/notice.php');
 else if ($Page == 'rate') include('form/rate.php');
 else if ($Page == 'archive') include('archive/engine.php');
+else if ($Page == 'language') include('page/language.php');
 
 
 else if ($Page == 'news') {
@@ -241,6 +243,7 @@ mysqli_query($CONNECT, "INSERT INTO `notice` VALUES ('', $Row[id], 0, NOW(), '$p
 
 
 
+
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
 else if ($_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная сртаница доступна только для пользователей.', '/');
@@ -280,6 +283,9 @@ else if ($p1 == 2) return 'Россия';
 else if ($p1 == 3) return 'США';
 else if ($p1 == 4) return 'Канада';
 }
+
+
+
 
 
 
