@@ -101,7 +101,7 @@ else mysqli_query($CONNECT, "INSERT INTO `online` SET `ip` = '$_SERVER[REMOTE_AD
 
 
 
-if (in_array($Page, array('index', 'login', 'register', 'account', 'profile', 'restore', 'chat', 'parser', 'search', 'notice', 'rate', 'language', 'user'))) include("page/$Page.php");
+if (in_array($Page, array('qiwi', 'index', 'login', 'register', 'account', 'profile', 'restore', 'chat', 'parser', 'search', 'notice', 'rate', 'language', 'user'))) include("page/$Page.php");
 
 
 
@@ -115,7 +115,12 @@ else if ($Page == 'loads' and in_array($Module, array('main', 'material', 'edit'
 else if ($Page == 'pm' and in_array($Module, array('send', 'dialog', 'message', 'control'))) include("module/pm/$Module.php");
 
 
-else if ($Page == 'comments' and in_array($Module, array('add', 'contorl'))) include("module/comments/$Module.php");
+else if ($Page == 'comments' and in_array($Module, array('add', 'control'))) include("module/comments/$Module.php");
+
+
+
+else if ($Page == 'forum' and in_array($Module, array('main', 'section', 'topic', 'add', 'control'))) include("module/forum/$Module.php");
+
 
 
 
@@ -132,6 +137,7 @@ else NotFound();
 	
 }
 
+else if ($Page == 'archive' ) include("archive/engine.php");
 
 else NotFound();
 
@@ -363,7 +369,7 @@ echo '<div class="MenuHead"><a href="/admin"><div class="Menu">Главная</d
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
 else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a><a href="/pm/send"><div class="Menu">ЛС</div></a>';
-echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a><a href="/loads"><div class="Menu">Каталог файлов</div></a>'.$Menu.'</div>';
+echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a><a href="/loads"><div class="Menu">Файлов</div></a><a href="/forum"><div class="Menu">Форум</div></a>'.$Menu.'</div>';
 }
 
 function Footer () {
