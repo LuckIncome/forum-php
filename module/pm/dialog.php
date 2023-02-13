@@ -37,7 +37,7 @@ else $Status = 'Не прочитано';
 
 if ($Row['recive'] == $_SESSION['USER_ID']) $Row['recive'] = $Row['send'];
 $User = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `login` FROM `users` WHERE `id` = $Row[recive]"));
-echo '<a href="/'.$Row['id'].'"><div class="ChatBlock"><span>'.$Status.'</span>Диалог с '.$User['login'].'</div></a>';
+echo '<a href="/pm/message/id/'.$Row['id'].'"><div class="ChatBlock"><span>'.$Status.'</span>Диалог с '.$User['login'].'</div></a>';
 }
 
 

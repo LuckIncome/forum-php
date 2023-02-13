@@ -93,6 +93,7 @@ else if ($Module == 'control') include('module/news/control.php');
 else if ($Page == 'pm') {
 if ($Module == 'send') include('module/pm/send.php');
 else if ($Module == 'dialog') include('module/pm/dialog.php');
+else if ($Module == 'message') include('module/pm/message.php');
 }
 
 
