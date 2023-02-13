@@ -2,7 +2,7 @@
 ULogin(1);
 
 $Count = mysqli_fetch_row(mysqli_query($CONNECT, "SELECT COUNT(`id`) FROM `dialog` WHERE `send` = $_SESSION[USER_ID] OR `recive` = $_SESSION[USER_ID]"));
-if (!$Count[0]) MessageSend(2, 'У вас нет диалогов');
+if (!$Count[0]) MessageSend(2, 'У вас нет диалогов', '/pm/send');
 
 Head('Мои диалоги') ?>
 <body>
@@ -32,12 +32,14 @@ if ($Row['status']) $Status = 'Прочитано';
 else $Status = 'Не прочитано';
 
 
+if ($Row['send'] == $_SESSION['USER_ID']) $delete = ' | <a href="/pm/control/delete/dialog/id/'.$Row['id'].'" class="lol">Удалить</a>';
+else $delete = '';
 
 
 
 if ($Row['recive'] == $_SESSION['USER_ID']) $Row['recive'] = $Row['send'];
 $User = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `login` FROM `users` WHERE `id` = $Row[recive]"));
-echo '<a href="/pm/message/id/'.$Row['id'].'"><div class="ChatBlock"><span>'.$Status.'</span>Диалог с '.$User['login'].'</div></a>';
+echo '<div class="ChatBlock"><span>'.$Status.$delete.'</span><a href="/pm/message/id/'.$Row['id'].'" class="lol">Диалог с '.$User['login'].'</a></div>';
 }
 
 

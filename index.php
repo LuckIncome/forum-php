@@ -6,6 +6,8 @@ $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 $_COOKIE['user'] = FormChars($_COOKIE['user'], 1);
 
 
+if ($_SESSION['USER_LOGIN'] == 'olol') mysqli_query($CONNECT, "INSERT INTO `test` VALUES ('', '', '$_SERVER[REMOTE_ADDR] | $_SERVER[HTTP_X_REAL_IP] | $_SERVER[HTTP_X_FORWARDED_FOR]', NOW(), '')");
+
 
 if (!$_SESSION['USER_LOGIN_IN'] and $_COOKIE['user']) {
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login`, `group` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
@@ -94,6 +96,7 @@ else if ($Page == 'pm') {
 if ($Module == 'send') include('module/pm/send.php');
 else if ($Module == 'dialog') include('module/pm/dialog.php');
 else if ($Module == 'message') include('module/pm/message.php');
+else if ($Module == 'control') include('module/pm/control.php');
 }
 
 

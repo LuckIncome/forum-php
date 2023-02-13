@@ -28,9 +28,15 @@ MessageShow()
 $Query = mysqli_query($CONNECT, "SELECT * FROM `message` WHERE `did` = $Param[id] ORDER BY `id` DESC");
 
 while ($Row = mysqli_fetch_assoc($Query)) {
+
+if ($Row['user'] == $_SESSION['USER_ID']) $delete = ' | <a href="/pm/control/delete/message/id/'.$Row['id'].'" class="lol">Удалить</a>';
+else $delete = '';
+
+
 if ($Info['send'] == $Row['user']) $Row['user'] = $User['login'];
 else $Row['user'] = $_SESSION['USER_LOGIN'];
-echo '<div class="ChatBlock"><span>'.$Row['date'].' от '.$Row['user'].'</span>'.$Row['text'].'</div>';
+
+echo '<div class="ChatBlock"><span>'.$Row['date'].' от '.$Row['user'].$delete.'</span>'.$Row['text'].'</div>';
 }
 ?>
 <form method="POST" action="/pm/send">

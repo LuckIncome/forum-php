@@ -3,6 +3,9 @@ ULogin(1);
 
 if ($_POST['enter'] and $_POST['text'] and $_POST['captcha']) {
 $_POST['text'] = FormChars($_POST['text']);
+
+if (preg_match ('/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $_POST['text'])) MessageSend(1, 'Ссылки запрещены.');
+
 $_POST['captcha'] = FormChars($_POST['captcha']);
 if ($_SESSION['captcha'] != md5($_POST['captcha'])) MessageSend(1, 'Капча введена не верно.');
 mysqli_query($CONNECT, "INSERT INTO `chat`  VALUES ('', '$_POST[text]', '$_SESSION[USER_LOGIN]', NOW())");
