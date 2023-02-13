@@ -34,6 +34,7 @@ ID '.$_SESSION['USER_ID'].' ('.UserGroup($_SESSION['USER_GROUP']).')
 <br><br><input type="submit" name="enter" value="Сохранить"> <input type="reset" value="Очистить">
 </form>
 </div>
+<br><a href="/notice" class="button">Уведомления</a>
 ';
 ?>
 </div>

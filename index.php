@@ -57,6 +57,7 @@ else if ($Page == 'chat') include('page/chat.php');
 else if ($Page == 'user') include('page/user.php');
 else if ($Page == 'parser') include('page/parser.php');
 else if ($Page == 'search') include('page/search.php');
+else if ($Page == 'notice') include('page/notice.php');
 
 
 
