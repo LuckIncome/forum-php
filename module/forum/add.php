@@ -1,5 +1,4 @@
 <?php 
-//UAccess(2);
 
 
 if ($_POST['enter']) {
@@ -37,7 +36,7 @@ if (!mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `forum` WHERE `
 mysqli_query($CONNECT, "INSERT INTO `forump`  VALUES ('', $Param[id], NOW(), '$_POST[text]', '$_SESSION[USER_LOGIN]')");
 
 
-mysqli_query($CONNECT, "UPDATE `forum` SET `last_update` = NOW(), `last_post` = '$_SESSION[USER_LOGIN]'");
+mysqli_query($CONNECT, "UPDATE `forum` SET `last_update` = NOW(), `last_post` = '$_SESSION[USER_LOGIN]' WHERE `id` = $Param[id]");
 
 MessageSend(2, 'Сообщение добавлено', "/forum/topic/id/$Param[id]");
 
