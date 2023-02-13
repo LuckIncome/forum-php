@@ -4,13 +4,10 @@ include_once 'setting.php';
 session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
-$_COOKIE['user'] = FormChars($_COOKIE['user'], 1);
-
-
-
 
 
 if (!$_SESSION['USER_LOGIN_IN'] and $_COOKIE['user']) {
+$_COOKIE['user'] = mysqli_real_escape_string($CONNECT, $_COOKIE['user']);
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login`, `group` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
 
 if (!$Row) {
@@ -18,6 +15,9 @@ setcookie('user', '', strtotime('-30 days'), '/');
 unset($_COOKIE['user']);
 MessageSend(1, 'Ошибка авторизации', '/');
 }
+
+
+
 $_SESSION['USER_LOGIN_IN'] = 1;
 foreach ($Row as $Key => $Value) $_SESSION['USER_'.strtoupper($Key)] = $Value;
 }
@@ -41,7 +41,9 @@ $Param = array();
 for ($i = 0; $i < count($URL_Parts); $i++) {
 $Param[$URL_Parts[$i]] = $URL_Parts[++$i];
 }
-}
+} else $Module = 'main';
+
+
 }
 
 
@@ -99,89 +101,49 @@ else mysqli_query($CONNECT, "INSERT INTO `online` SET `ip` = '$_SERVER[REMOTE_AD
 
 
 
-
-
-if ($Page == 'index') include('page/index.php');
-else if ($Page == 'login') include('page/login.php');
-else if ($Page == 'register') include('page/register.php');
-else if ($Page == 'account') include('form/account.php');
-else if ($Page == 'profile') include('page/profile.php');
-else if ($Page == 'restore') include('page/restore.php');
-else if ($Page == 'chat') include('page/chat.php');
-else if ($Page == 'user') include('page/user.php');
-else if ($Page == 'parser') include('page/parser.php');
-else if ($Page == 'search') include('page/search.php');
-else if ($Page == 'notice') include('page/notice.php');
-else if ($Page == 'rate') include('form/rate.php');
-else if ($Page == 'archive') include('archive/engine.php');
-else if ($Page == 'language') include('page/language.php');
-
-
-else if ($Page == 'news') {
-if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and $Module == 'main') include('module/news/main.php');
-else if ($Module == 'material') {
-include('module/comments/main.php');
-include('module/news/material.php');
-}
+if (in_array($Page, array('index', 'login', 'register', 'account', 'profile', 'restore', 'chat', 'parser', 'search', 'notice', 'rate', 'language', 'user'))) include("page/$Page.php");
 
 
 
+else if ($Page == 'news' and in_array($Module, array('main', 'material', 'edit', 'control', 'add'))) include("module/news/$Module.php");
 
-else if ($Module == 'add') include('module/news/add.php');
-else if ($Module == 'edit') include('module/news/edit.php');
-else if ($Module == 'control') include('module/news/control.php');
-}
 
+else if ($Page == 'loads' and in_array($Module, array('main', 'material', 'edit', 'control', 'add', 'download'))) include("module/loads/$Module.php");
 
 
 
-else if ($Page == 'pm') {
-if ($Module == 'send') include('module/pm/send.php');
-else if ($Module == 'dialog') include('module/pm/dialog.php');
-else if ($Module == 'message') include('module/pm/message.php');
-else if ($Module == 'control') include('module/pm/control.php');
-}
+else if ($Page == 'pm' and in_array($Module, array('send', 'dialog', 'message', 'control'))) include("module/pm/$Module.php");
 
 
+else if ($Page == 'comments' and in_array($Module, array('add', 'contorl'))) include("module/comments/$Module.php");
 
-
-
-
-
-else if ($Page == 'loads') {
-if (!$Module or $Page == 'loads' and $Module == 'category' or $Page == 'loads' and $Module == 'main') include('module/loads/main.php');
-else if ($Module == 'material') {
-include('module/comments/main.php');
-include('module/loads/material.php');
-}
-else if ($Module == 'add') include('module/loads/add.php');
-else if ($Module == 'edit') include('module/loads/edit.php');
-else if ($Module == 'control') include('module/loads/control.php');
-else if ($Module == 'download') include('module/loads/download.php');
-}
-
-else if ($Page == 'comments') {
-if ($Module == 'add') include('module/comments/add.php');
-else if ($Module == 'control') include('module/comments/control.php');
-}
 
 
 else if ($Page == 'admin') {
-if ($_SESSION['ADMIN_LOGIN_IN']) {
-if (!$Module) include('module/admin/main.php');
-else if ($Module == 'stats') include('module/admin/stats.php');
-else if ($Module == 'query') include('module/admin/query.php');
-} else {
-if ($Module == ADMIN_PASS) {
+
+if ($_SESSION['ADMIN_LOGIN_IN'] and in_array($Module, array('main', 'stats', 'query'))) include("module/admin/$Module.php");
+else if ($Module == ADMIN_PASS) {
 $_SESSION['ADMIN_LOGIN_IN'] = 1;
 MessageSend(3, 'Вход в Админ панель выполнен успешно.', '/admin');
 }
+else NotFound();
+
+	
+	
 }
-} 
+
+
+else NotFound();
 
 
 
 
+
+
+function NotFound() {
+header('HTTP/1.0 404 Not Found');
+exit(include("page/404.php"));	
+}
 
 
 

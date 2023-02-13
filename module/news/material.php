@@ -33,7 +33,9 @@ $RATED .= '<a href="/user/'.$Row2['login'].'" class="lol">'.$Row2['login'].'</a>
 if (!$Row['active']) $Active = '| <a href="/news/control/id/'.$Param['id'].'/command/active" class="lol">Активировать новость</a>';
 if ($_SESSION['USER_GROUP'] == 2) $EDIT = '| <a href="/news/edit/id/'.$Param['id'].'" class="lol">Редактировать новость</a> | <a href="/news/control/id/'.$Param['id'].'/command/delete" class="lol">Удалить новость</a>'.$Active;
 echo 'Добавил: '.$Row['added'].' | Оценок: '.$Row['rate'].' | Дата: '.$Row['date'].' '.$EDIT.'<br>Оценили: '.$RATED.'<br><br><a href="/rate/news/id/'.$Param['id'].'" class="button">Мне нравится</a><br><br><b>'.$Row['name'].'</b><br>'.$Row['text'];
-COMMENTS()
+
+
+include("module/comments/main.php");
 ?>
 </div>
 </div>

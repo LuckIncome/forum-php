@@ -1,6 +1,5 @@
 <?php
-function COMMENTS() {
-global $CONNECT, $Module, $Page, $Param;
+
 if ($_SESSION['USER_LOGIN_IN'] != 1) echo '<br><br>Оставлять комменатрии могут только зарегистрированные пользователи.';
 else echo '<br><br><form method="POST" action="/comments/add/module/'.$Page.'/id/'.$Param['id'].'">
 <textarea class="ChatMessage" name="text" placeholder="Текст сообщения" required></textarea>
@@ -28,5 +27,5 @@ if ($Row['id'] == $_SESSION['COMMENTS_EDIT']) $Row['text'] = '<form method="POST
 echo '<div class="ChatBlock"><span>'.$Row['added'].' | '.$Row['date'].$Admin.'</span>'.$Row['text'].'</div>';
 }
 
-}
+
 ?>

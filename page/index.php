@@ -37,8 +37,10 @@ else {
 	
 }
 
-	if ($u_list) $u_list = substr($u_list, 0, -2);
-	echo 'Гостей: '.$u0.' | Пользователей: '.$u1.' | Сейчас онлайн: '.$u_list;
+	if ($u_list) $u_list = ' [ '.substr($u_list, 0, -2).' ]';
+
+	
+	echo 'Гостей: '.$u0.' | Пользователей: '.$u1.$u_list;
 
 
 

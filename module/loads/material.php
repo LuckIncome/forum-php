@@ -24,7 +24,9 @@ MessageShow()
 if (!$Row['active']) $Active = '| <a href="/loads/control/id/'.$Param['id'].'/command/active" class="lol">Активировать новость</a>';
 if ($_SESSION['USER_GROUP'] == 2) $EDIT = '| <a href="/loads/edit/id/'.$Param['id'].'" class="lol">Редактировать новость</a> | <a href="/loads/control/id/'.$Param['id'].'/command/delete" class="lol">Удалить новость</a>'.$Active;
 echo '<a href="'.$Download.'" class="lol">Скачать</a> | Добавил: '.$Row['added'].' | Оценок: '.$Row['rate'].' | Дата: '.$Row['date'].' '.$EDIT.'<br><br><a href="/rate/loads/id/'.$Param['id'].'" class="button">Мне нравится</a><br><br><b>'.$Row['name'].'</b><br><img src="/catalog/img/'.$Row['dimg'].'/'.$Param['id'].'.jpg" alt="'.$Row['name'].'"><br>'.$Row['text'];
-COMMENTS()
+
+include("module/comments/main.php");
+
 ?>
 </div>
 </div>
