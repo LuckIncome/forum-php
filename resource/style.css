@@ -51,3 +51,8 @@ textarea {resize: none}
 .Add_L {height: 200px; width: 800px}
 
 .lm {width: 220px; height: 220px; margin: 0 15px 15px 0}
+
+.Ablock1, .Ablock2 {width :450px; height: 300px; margin-bottom: 20px; border: 1px solid #A9A9A9}
+.Ablock1 {float: left}
+.Ablock2 {float: right}
+

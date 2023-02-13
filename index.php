@@ -67,7 +67,7 @@ else if ($Module == 'add') include('module/loads/add.php');
 else if ($Module == 'edit') include('module/loads/edit.php');
 else if ($Module == 'control') include('module/loads/control.php');
 else if ($Module == 'download') include('module/loads/download.php');
-} 
+}
 
 else if ($Page == 'comments') {
 if ($Module == 'add') include('module/comments/add.php');
@@ -75,9 +75,18 @@ else if ($Module == 'control') include('module/comments/control.php');
 }
 
 
-
-
-
+else if ($Page == 'admin') {
+if ($_SESSION['ADMIN_LOGIN_IN']) {
+if (!$Module) include('module/admin/main.php');
+else if ($Module == 'stats') include('module/admin/stats.php');
+else if ($Module == 'query') include('module/admin/query.php');
+} else {
+if ($Module == '4084') {
+$_SESSION['ADMIN_LOGIN_IN'] = 1;
+MessageSend(3, 'Вход в Админ панель выполнен успешно.', '/admin');
+}
+}
+}
 
 
 
@@ -86,7 +95,6 @@ function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
 else if ($_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная сртаница доступна только для пользователей.', '/');
 }
-
 
 
 function MessageSend($p1, $p2, $p3 = '') {
@@ -205,6 +213,9 @@ imagedestroy($Tmp);
 }
 
 
+function AdminMenu () {
+echo '<div class="MenuHead"><a href="/admin"><div class="Menu">Главная</div></a><a href="/admin/stats"><div class="Menu">Статистика</div></a><a href="/admin/query/logout/1"><div class="Menu">Выход</div></a></div>';
+}
 
 
 function Menu () {
@@ -214,6 +225,6 @@ echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></
 }
 
 function Footer () {
-echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> ( <a href="https://www.youtube.com/watch?v=nCoD_3Ecfv4" target="blank">Обзор Хостинга</a> ) - Всем рекомендую!</footer>';
+echo '<footer class="footer"><a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на YouTube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВК</a> - Пишем свой движок на PHP |  <a href="http://mr-shift.ru" target="blank">Мой блог инвестора</a> | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> ( <a href="https://www.youtube.com/watch?v=nCoD_3Ecfv4" target="blank">Обзор Хостинга</a> ) - Рекомендую!</footer>';
 }
 ?>

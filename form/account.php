@@ -103,7 +103,7 @@ if (!$_POST['login'] or !$_POST['captcha']) MessageSend(1, 'Невозможно
 if ($_SESSION['captcha'] != md5($_POST['captcha'])) MessageSend(1, 'Капча введена не верно.');
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `email` FROM `users` WHERE `login` = '$_POST[login]'"));
 if (!$Row['email']) MessageSend(1, 'Пользователь не найден.');
-mail($Row['email'], 'Mr.Shift', 'Ссылка для восстановления: http://mr-shift.ru/account/restore/code/'.md5($Row['email']).$Row['id'], 'From: web@mr-shift.ru');
+mail($Row['email'], 'Mr.Shift', 'Ссылка для восстановления: http://youtube.mr-shift.ru/account/restore/code/'.md5($Row['email']).$Row['id'], 'From: web@mr-shift.ru');
 $_SESSION['RESTORE'] = 'wait_'.$Row['email'];
 MessageSend(2, 'На ваш E-mail адрес <b>'.HideEmail($Row['email']).'</b> отправлено подтерждение смены пароля');
 }
