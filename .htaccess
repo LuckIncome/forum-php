@@ -8,3 +8,5 @@ RewriteRule ^resource/(.*)$ resource/$1 [L]
 RewriteRule ^catalog/(.*)$ catalog/$1 [L]
 RewriteRule ^.*$ [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
+AddDefaultCharset utf-8
+AddType 'text/html; charset=utf-8' .html .htm .shtml

@@ -36,6 +36,16 @@ $Param[$URL_Parts[$i]] = $URL_Parts[++$i];
 }
 
 
+if ($_SESSION['USER_LOGIN_IN']) {
+if ($Page != 'notice') {
+$Num = mysqli_fetch_row(mysqli_query($CONNECT, "SELECT COUNT(`id`) FROM `notice` WHERE `status` = 0 AND `uid` = $_SESSION[USER_ID]"));
+if ($Num[0]) MessageSend(2, 'У вас есть непрочитанные уведомления. <a href="/notice">Прочитать ( <b>'.$Num[0].'</b> )</a>', '', 0);
+}
+}
+
+
+
+
 
 if ($Page == 'index') include('page/index.php');
 else if ($Page == 'login') include('page/login.php');
@@ -47,6 +57,7 @@ else if ($Page == 'chat') include('page/chat.php');
 else if ($Page == 'user') include('page/user.php');
 else if ($Page == 'parser') include('page/parser.php');
 else if ($Page == 'search') include('page/search.php');
+
 
 
 
@@ -94,19 +105,34 @@ MessageSend(3, 'Вход в Админ панель выполнен успеш�
 } 
 
 
+
+
+function SendNotice($p1, $p2) {
+global $CONNECT;
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `users` WHERE `login` = '$p1'"));
+if (!$Row['id']) echo 'Error';
+mysqli_query($CONNECT, "INSERT INTO `notice` VALUES ('', $Row[id], 0, NOW(), '$p2')");
+}
+
+
+
+
+
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
 else if ($_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная сртаница доступна только для пользователей.', '/');
 }
 
 
-function MessageSend($p1, $p2, $p3 = '') {
+function MessageSend($p1, $p2, $p3 = '', $p4 = 1) {
 if ($p1 == 1) $p1 = 'Ошибка';
 else if ($p1 == 2) $p1 = 'Подсказка';
 else if ($p1 == 3) $p1 = 'Информация';
 $_SESSION['message'] = '<div class="MessageBlock"><b>'.$p1.'</b>: '.$p2.'</div>';
-if ($p3) $_SERVER['HTTP_REFERER']  = $p3;
+if ($p4) {
+if ($p3) $_SERVER['HTTP_REFERER'] = $p3;
 exit(header('Location: '.$_SERVER['HTTP_REFERER']));
+}
 }
 
 
