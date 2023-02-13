@@ -25,10 +25,23 @@ $Param[$URL_Parts[$i]] = $URL_Parts[++$i];
 
 
 
+
 if ($Page == 'index') include('page/index.php');
 else if ($Page == 'login') include('page/login.php');
 else if ($Page == 'register') include('page/register.php');
 
+else if ($Page == 'account') include('form/account.php');
+
+
+
+function FormChars ($p1) {
+return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
+}
+
+
+function GenPass ($p1, $p2) {
+return md5('MRSHIFT'.md5('321'.$p1.'123').md5('678'.$p2.'890'));
+}
 
 
 function Head($p1) {

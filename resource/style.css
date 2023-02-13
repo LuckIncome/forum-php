@@ -4,7 +4,7 @@ a {color: #fff; font-weight: bold}
 input[type=text], input[type=password], input[type=email]{height: 15px; width: 200px; padding: 5px; margin-bottom: 5px;}
 input[type=submit], input[type=reset] {color: #fff; text-decoration: none; background: #D44B38; padding: 8px; border: 1px solid #A83B2D} 
 input[type=submit]:hover, input[type=reset]:hover { background: #E85F4C}
-select {height:30px}
+select {height:30px; margin-bottom: 5px;}
 
 .wrapper {width: 1000px; margin: 0 auto}
 .header {width: 1000px; height: 150px; background: url(/resource/img/logo.png)}
