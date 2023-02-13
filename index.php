@@ -51,6 +51,10 @@ if ($Num[0]) MessageSend(2, 'У вас есть непрочитанные ув�
 
 
 
+$Count = mysqli_fetch_row(mysqli_query($CONNECT, "SELECT COUNT(`id`) FROM `dialog` WHERE `recive` = $_SESSION[USER_ID] AND `status` = 0"));
+if ($Count[0]) MessageSend(2, 'У вас есть непрочитанные диалоги ( <b>'.$Count[0].'</b> )', '', 0);
+
+
 
 
 if ($Page == 'index') include('page/index.php');
@@ -75,10 +79,27 @@ include('module/comments/main.php');
 include('module/news/material.php');
 }
 
+
+
+
 else if ($Module == 'add') include('module/news/add.php');
 else if ($Module == 'edit') include('module/news/edit.php');
 else if ($Module == 'control') include('module/news/control.php');
 }
+
+
+
+
+else if ($Page == 'pm') {
+if ($Module == 'send') include('module/pm/send.php');
+else if ($Module == 'dialog') include('module/pm/dialog.php');
+}
+
+
+
+
+
+
 
 else if ($Page == 'loads') {
 if (!$Module or $Page == 'loads' and $Module == 'category' or $Page == 'loads' and $Module == 'main') include('module/loads/main.php');
@@ -110,6 +131,10 @@ MessageSend(3, 'Вход в Админ панель выполнен успеш�
 }
 }
 } 
+
+
+
+
 
 
 
@@ -324,7 +349,7 @@ echo '<div class="MenuHead"><a href="/admin"><div class="Menu">Главная</d
 
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
-else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a>';
+else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a><a href="/pm/send"><div class="Menu">ЛС</div></a>';
 echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a><a href="/loads"><div class="Menu">Каталог файлов</div></a>'.$Menu.'</div>';
 }
 
