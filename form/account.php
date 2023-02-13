@@ -37,6 +37,36 @@ mysqli_query($CONNECT, "UPDATE `users`  SET `country` = $_POST[country] WHERE `i
 $_SESSION['USER_COUNTRY'] = UserCountry($_POST['country']);
 }
 
+
+if ($_FILES['avatar']['tmp_name']) {
+if ($_FILES['avatar']['type'] != 'image/jpeg') MessageSend(2, 'Не верный тип изображения.');
+if ($_FILES['avatar']['size'] > 20000) MessageSend(2, 'Размер изображения слишком большой.');
+$Image = imagecreatefromjpeg($_FILES['avatar']['tmp_name']);
+$Size = getimagesize($_FILES['avatar']['tmp_name']);
+$Tmp = imagecreatetruecolor(120, 120);
+imagecopyresampled($Tmp, $Image, 0, 0, 0, 0, 120, 120, $Size[0], $Size[1]);
+if ($_SESSION['USER_AVATAR'] == 0) {
+$Files = glob('resource/avatar/*', GLOB_ONLYDIR);
+foreach($Files as $num => $Dir) {
+$Num ++;
+$Count = sizeof(glob($Dir.'/*.*'));
+if ($Count < 250) {
+$Download = $Dir.'/'.$_SESSION['USER_ID'];
+$_SESSION['USER_AVATAR'] = $Num;
+mysqli_query($CONNECT, "UPDATE `users`  SET `avatar` = $Num WHERE `id` = $_SESSION[USER_ID]");
+break;
+}
+}
+}
+else $Download = 'resource/avatar/'.$_SESSION['USER_AVATAR'].'/'.$_SESSION['USER_ID'];
+imagejpeg($Tmp, $Download.'.jpg');
+imagedestroy($Image);
+imagedestroy($Tmp);
+}
+
+
+
+
 MessageSend(3, 'Данные изменены.');
 }
 
