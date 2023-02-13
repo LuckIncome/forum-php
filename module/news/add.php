@@ -1,5 +1,4 @@
 <?php 
-ULogin(1);
 if ($_SESSION['USER_GROUP'] == 2) $Active = 1;
 else $Active = 0;
 if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {

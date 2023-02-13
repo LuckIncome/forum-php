@@ -53,6 +53,18 @@ else if ($Module == 'edit') include('module/news/edit.php');
 else if ($Module == 'control') include('module/news/control.php');
 }
 
+else if ($Page == 'loads') {
+if (!$Module or $Page == 'loads' and $Module == 'category' or $Page == 'loads' and $Module == 'main') include('module/loads/main.php');
+else if ($Module == 'material') include('module/loads/material.php');
+else if ($Module == 'add') include('module/loads/add.php');
+else if ($Module == 'edit') include('module/loads/edit.php');
+else if ($Module == 'control') include('module/loads/control.php');
+}
+
+
+
+
+
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
 else if ($_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная сртаница доступна только для пользователей.', '/');
@@ -169,10 +181,10 @@ echo '</div>';
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
 else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a>';
-echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a>'.$Menu.'</div>';
+echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a><a href="/loads"><div class="Menu">Каталог файлов</div></a>'.$Menu.'</div>';
 }
 
 function Footer () {
-echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> - Пишем свой движок на PHP</footer>';
+echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP</footer>';
 }
 ?>
