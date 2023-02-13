@@ -1,5 +1,5 @@
 <?php 
-UAccess(2);
+//UAccess(2);
 
 
 if ($_POST['enter']) {
@@ -13,11 +13,39 @@ $_POST['text'] = mysqli_real_escape_string($CONNECT, $_POST['text']);
 
 mysqli_query($CONNECT, "INSERT INTO `forum`  VALUES ('', $_POST[section], NOW(), 0, '$_POST[name]', '$_SESSION[USER_LOGIN]', '$_SESSION[USER_LOGIN]', NOW())");
 
+$id = mysqli_insert_id($CONNECT);
+
+mysqli_query($CONNECT, "INSERT INTO `forump`  VALUES ('', $id, NOW(), '$_POST[text]', '$_SESSION[USER_LOGIN]')");
+
 MessageSend(2, 'Тема добавлена', '/forum');
 
 
 
 }
+
+
+
+
+
+else if ($_POST['add_message']) {
+$Param['id'] += 0;
+
+$_POST['text'] = mysqli_real_escape_string($CONNECT, $_POST['text']);
+
+if (!mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `forum` WHERE `id` = $Param[id]"))) MessageSend(2, 'Тема не найдена', '/forum');
+
+mysqli_query($CONNECT, "INSERT INTO `forump`  VALUES ('', $Param[id], NOW(), '$_POST[text]', '$_SESSION[USER_LOGIN]')");
+
+
+mysqli_query($CONNECT, "UPDATE `forum` SET `last_update` = NOW(), `last_post` = '$_SESSION[USER_LOGIN]'");
+
+MessageSend(2, 'Сообщение добавлено', "/forum/topic/id/$Param[id]");
+
+}
+
+
+
+
 Head('Добавить тему') ?>
 <body>
 <div class="wrapper">

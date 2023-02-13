@@ -2,7 +2,7 @@
 
 $Param['id'] += 0;
 
-if (!preg_match('/^[1-5]{1,1}$/', $_POST['section'])) MessageSend(1, 'Секция форума указана не верно');
+if (!preg_match('/^[1-5]{1,1}$/', $Param['id'])) NotFound();
 
 
 Head('Раздел') ?>
