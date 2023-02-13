@@ -1,4 +1,11 @@
-<?php Head('Раздел') ?>
+<?php 
+
+$Param['id'] += 0;
+
+if (!preg_match('/^[1-5]{1,1}$/', $_POST['section'])) MessageSend(1, 'Секция форума указана не верно');
+
+
+Head('Раздел') ?>
 <body>
 <div class="wrapper">
 <div class="header"></div>
@@ -8,11 +15,44 @@ MessageShow()
 ?>
 <table>
 <tr><th>Тема</th><th>Дата создания</th><th>Автор</th><th>Последнее сообщение</th></tr>
-<tr><td><a href="/forum/topic/id/1">Тема 1</a></td><td>10.05.2016</td><td>User123</td><td>-</td></tr>
-<tr><td><a href="/forum/topic/id/2">Тема 2</a></td><td>10.05.2016</td><td>User123</td><td>-</td></tr>
-<tr><td><a href="/forum/topic/id/3">Тема 3</a></td><td>10.05.2016</td><td>User123</td><td>-</td></tr>
-<tr><td><a href="/forum/topic/id/4">Тема 4</a></td><td>10.05.2016</td><td>User123</td><td>-</td></tr>
-<tr><td><a href="/forum/topic/id/5">Тема 5</a></td><td>10.05.2016</td><td>User123</td><td>-</td></tr>
+
+
+<?php
+
+
+
+
+$Count = mysqli_fetch_row(mysqli_query($CONNECT, 'SELECT COUNT(`id`) FROM `forum` WHERE `section` = '.$Param['id']));
+
+
+
+if (!$Param['page']) {
+$Param['page'] = 1;
+$Result = mysqli_query($CONNECT, 'SELECT * FROM `forum` WHERE `section` = '.$Param['id'].' ORDER BY `id` DESC LIMIT 0, 5');
+} else {
+$Start = ($Param['page'] - 1) * 5;
+$Result = mysqli_query($CONNECT, str_replace('START', $Start, 'SELECT * FROM `forum` WHERE `section` = '.$Param['id'].' ORDER BY `id` DESC LIMIT START, 5'));
+}
+
+
+
+
+
+
+
+PageSelector('/forum/main/section/'.$Param['id'].'/page/', $Param['page'], $Count);
+
+while ($Row = mysqli_fetch_assoc($Result)) {
+
+echo '<tr><td><a href="/forum/topic/id/'.$Row['id'].'">'.$Row['name'].'</a></td><td>'.$Row['date'].'</td><td>'.$Row['author'].'</td><td>'.$Row['last_post'].'</td></tr>';
+
+
+}
+?>
+
+
+
+
 </table>
 </div>
 <?php Footer() ?>
