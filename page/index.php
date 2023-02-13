@@ -3,7 +3,9 @@
 <div class="wrapper">
 <div class="header"></div>
 <div class="content">
-<?php Menu() ?>
+<?php Menu();
+MessageShow() 
+?>
 <div class="Page">
 Главная страница
 </div>

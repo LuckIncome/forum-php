@@ -9,7 +9,9 @@ Head('Вход') ?>
 <div class="wrapper">
 <div class="header"></div>
 <div class="content">
-<?php Menu() ?>
+<?php Menu();
+MessageShow() 
+?>
 <div class="Page">
 <form method="POST" action="/login">
 <br><input type="text" name="login" placeholder="Логин" required>
