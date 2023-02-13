@@ -4,7 +4,7 @@ session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
 if ($_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']) {
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login`, `group` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
 $_SESSION['USER_LOGIN'] = $Row['login'];
 $_SESSION['USER_ID'] = $Row['id'];
 $_SESSION['USER_NAME'] = $Row['name'];
@@ -12,6 +12,7 @@ $_SESSION['USER_REGDATE'] = $Row['regdate'];
 $_SESSION['USER_EMAIL'] = $Row['email'];
 $_SESSION['USER_COUNTRY'] = UserCountry($Row['country']);
 $_SESSION['USER_AVATAR'] = $Row['avatar'];
+$_SESSION['USER_GROUP'] = $Row['group'];
 $_SESSION['USER_LOGIN_IN'] = 1;
 }
 
@@ -47,9 +48,9 @@ else if ($Page == 'chat') include('page/chat.php');
 else if ($Page == 'news') {
 if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and $Module == 'main') include('module/news/main.php');
 else if ($Module == 'material') include('module/news/material.php');
+else if ($Module == 'add') include('module/news/add.php');
+else if ($Module == 'edit') include('module/news/edit.php');
 }
-
-
 
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
@@ -82,6 +83,20 @@ else if ($p1 == 1) return 'Украина';
 else if ($p1 == 2) return 'Россия';
 else if ($p1 == 3) return 'США';
 else if ($p1 == 4) return 'Канада';
+}
+
+
+
+function UserGroup($p1) {
+if ($p1 == 0) return 'Пользователь';
+else if ($p1 == 1) return 'Модератор';
+else if ($p1 == 2) return 'Администратор';
+else if ($p1 == -1) return 'Заблокирован';
+}
+
+
+function UAccess($p1) {
+if ($_SESSION['USER_GROUP'] < $p1) MessageSend(1, 'У вас нет прав доступа для просмотра данной страницйы сайта', '/');
 }
 
 
@@ -120,7 +135,7 @@ $p2 - Текущая страница (из $Param['page'])
 $p3 - Кол-во новостей
 $p4 - Кол-во записей на странице
 */
-$Page = $p3[0] / $p4; //делим кол-во новостей на кол-во записей на странице.
+$Page = ceil($p3[0] / $p4); //делим кол-во новостей на кол-во записей на странице.
 if ($Page > 1) { //А нужен ли переключатель?
 echo '<div class="PageSelector">';
 for($i = ($p2 - 3); $i < ($Page + 1); $i++) {

@@ -14,7 +14,9 @@ Head($Row['name']);
 MessageShow() 
 ?>
 <div class="Page">
-<?php echo 'Просомтров: '.($Row['read'] + 1).' | Добавил: '.$Row['added'].' | Дата: '.$Row['date'].'<br><br><b>'.$Row['name'].'</b><br>'.$Row['text'] ?>
+<?php 
+if ($_SESSION['USER_GROUP'] == 2) $EDIT = '<a href="/news/edit/id/'.$Param['id'].'" class="lol">Редактировать новость</a>';
+echo 'Просомтров: '.($Row['read'] + 1).' | Добавил: '.$Row['added'].' | Дата: '.$Row['date'].' | '.$EDIT.'<br><br><b>'.$Row['name'].'</b><br>'.$Row['text'] ?>
 </div>
 </div>
 

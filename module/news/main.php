@@ -1,5 +1,6 @@
 <?php 
 if ($Module == 'category' and $Param['id'] != 1 and $Param['id'] != 2 and $Param['id'] != 3) MessageSend(1, 'Такой категории не существует.', '/news');
+$Param['page'] += 0;
 Head('Новости');
 ?>
 <body>
@@ -10,6 +11,7 @@ Head('Новости');
 MessageShow() 
 ?>
 <div class="CatHead">
+<?php if ($_SESSION['USER_GROUP'] == 2) echo '<a href="/news/add"><div class="Cat">Добавить новость</div></a>' ?>
 <a href="/news"><div class="Cat">Все категории</div></a>
 <a href="/news/category/id/1"><div class="Cat">Категория 1</div></a>
 <a href="/news/category/id/2"><div class="Cat">Категория 2</div></a>

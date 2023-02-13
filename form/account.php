@@ -123,7 +123,7 @@ $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `login` FROM `users` WH
 if ($Row['login']) exit('Логин <b>'.$_POST['login'].'</b> уже используеться.');
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `email` FROM `users` WHERE `email` = '$_POST[email]'"));
 if ($Row['email']) exit('E-Mail <b>'.$_POST['email'].'</b> уже используеться.');
-mysqli_query($CONNECT, "INSERT INTO `users`  VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', $_POST[country], 0, 0)");
+mysqli_query($CONNECT, "INSERT INTO `users`  VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', $_POST[country], 0, 0, 0)");
 $Code = str_replace('=', '', base64_encode($_POST['email']));
 mail($_POST['email'], 'Регистрация на блоге Mr.Shift', 'Ссылка для активации: http://mr-shift.ru/account/activate/code/'.substr($Code, -5).substr($Code, 0, -5), 'From: web@mr-shift.ru');
 MessageSend(3, 'Регистрация акаунта успешно завершена. На указанный E-mail адрес <b>'.$_POST['email'].'</b> отправленно письмо о подтверждении регистрации.');
@@ -154,7 +154,7 @@ if ($_SESSION['captcha'] != md5($_POST['captcha'])) MessageSend(1, 'Капча �
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `password`, `active` FROM `users` WHERE `login` = '$_POST[login]'"));
 if ($Row['password'] != $_POST['password']) MessageSend(1, 'Не верный логин или пароль.');
 if ($Row['active'] == 0) MessageSend(1, 'Аккаунт пользователя <b>'.$_POST['login'].'</b> не подтвержден.');
-$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `password`, `login` FROM `users` WHERE `login` = '$_POST[login]'"));
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `password`, `login`, `group` FROM `users` WHERE `login` = '$_POST[login]'"));
 $_SESSION['USER_LOGIN'] = $Row['login'];
 $_SESSION['USER_PASSWORD'] = $Row['password'];
 $_SESSION['USER_ID'] = $Row['id'];
@@ -163,6 +163,7 @@ $_SESSION['USER_REGDATE'] = $Row['regdate'];
 $_SESSION['USER_EMAIL'] = $Row['email'];
 $_SESSION['USER_COUNTRY'] = UserCountry($Row['country']);
 $_SESSION['USER_AVATAR'] = $Row['avatar'];
+$_SESSION['USER_GROUP'] = $Row['group'];
 $_SESSION['USER_LOGIN_IN'] = 1;
 if ($_REQUEST['remember']) setcookie('user', $_POST['password'], strtotime('+30 days'), '/');
 exit(header('Location: /profile'));

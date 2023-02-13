@@ -17,7 +17,7 @@ else $Avatar = $_SESSION['USER_AVATAR'].'/'.$_SESSION['USER_ID'];
 echo '
 <img src="/resource/avatar/'.$Avatar.'.jpg" width="120" height="120" alt="Аватар" align="left">
 <div class="Block">
-ID '.$_SESSION['USER_ID'].'
+ID '.$_SESSION['USER_ID'].' ('.UserGroup($_SESSION['USER_GROUP']).')
 <br>Имя '.$_SESSION['USER_NAME'].'
 <br>E-mail '.$_SESSION['USER_EMAIL'].'
 <br>Страна '.$_SESSION['USER_COUNTRY'].'
