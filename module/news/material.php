@@ -18,7 +18,9 @@ MessageShow()
 <?php 
 if (!$Row['active']) $Active = '| <a href="/news/control/id/'.$Param['id'].'/command/active" class="lol">Активировать новость</a>';
 if ($_SESSION['USER_GROUP'] == 2) $EDIT = '| <a href="/news/edit/id/'.$Param['id'].'" class="lol">Редактировать новость</a> | <a href="/news/control/id/'.$Param['id'].'/command/delete" class="lol">Удалить новость</a>'.$Active;
-echo 'Просомтров: '.($Row['read'] + 1).' | Добавил: '.$Row['added'].' | Дата: '.$Row['date'].' '.$EDIT.'<br><br><b>'.$Row['name'].'</b><br>'.$Row['text'] ?>
+echo 'Просомтров: '.($Row['read'] + 1).' | Добавил: '.$Row['added'].' | Дата: '.$Row['date'].' '.$EDIT.'<br><br><b>'.$Row['name'].'</b><br>'.$Row['text'];
+COMMENTS()
+?>
 </div>
 </div>
 

@@ -47,7 +47,11 @@ else if ($Page == 'chat') include('page/chat.php');
 
 else if ($Page == 'news') {
 if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and $Module == 'main') include('module/news/main.php');
-else if ($Module == 'material') include('module/news/material.php');
+else if ($Module == 'material') {
+include('module/comments/main.php');
+include('module/news/material.php');
+}
+
 else if ($Module == 'add') include('module/news/add.php');
 else if ($Module == 'edit') include('module/news/edit.php');
 else if ($Module == 'control') include('module/news/control.php');
@@ -55,12 +59,28 @@ else if ($Module == 'control') include('module/news/control.php');
 
 else if ($Page == 'loads') {
 if (!$Module or $Page == 'loads' and $Module == 'category' or $Page == 'loads' and $Module == 'main') include('module/loads/main.php');
-else if ($Module == 'material') include('module/loads/material.php');
+else if ($Module == 'material') {
+include('module/comments/main.php');
+include('module/loads/material.php');
+}
 else if ($Module == 'add') include('module/loads/add.php');
 else if ($Module == 'edit') include('module/loads/edit.php');
 else if ($Module == 'control') include('module/loads/control.php');
 else if ($Module == 'download') include('module/loads/download.php');
+} 
+
+else if ($Page == 'comments') {
+if ($Module == 'add') include('module/comments/add.php');
+else if ($Module == 'control') include('module/comments/control.php');
 }
+
+
+
+
+
+
+
+
 
 function ULogin($p1) {
 if ($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1, 'Данная страница доступна только для гостей.', '/');
@@ -137,6 +157,11 @@ echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><
 }
 
 
+function ModuleID($p1) {
+if ($p1 == 'news') return 1;
+else if ($p1 == 'loads') return 2;
+else MessageSend(1, 'Модуль не найден.', '/');
+}
 
 
 function PageSelector($p1, $p2, $p3, $p4 = 5) {
@@ -189,6 +214,6 @@ echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></
 }
 
 function Footer () {
-echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> - Всем рекомендую! Покупай здесь...</footer>';
+echo '<footer class="footer">Mr.Shift - <a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на You Tube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВКонтакте</a> - Пишем свой движок на PHP | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> ( <a href="https://www.youtube.com/watch?v=nCoD_3Ecfv4" target="blank">Обзор Хостинга</a> ) - Всем рекомендую!</footer>';
 }
 ?>
