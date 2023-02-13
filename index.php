@@ -81,7 +81,7 @@ if (!$Module) include('module/admin/main.php');
 else if ($Module == 'stats') include('module/admin/stats.php');
 else if ($Module == 'query') include('module/admin/query.php');
 } else {
-if ($Module == '4084') {
+if ($Module == ADMIN_PASS) {
 $_SESSION['ADMIN_LOGIN_IN'] = 1;
 MessageSend(3, 'Вход в Админ панель выполнен успешно.', '/admin');
 }
@@ -161,7 +161,7 @@ return md5('MRSHIFT'.md5('321'.$p1.'123').md5('678'.$p2.'890'));
 
 
 function Head($p1) {
-echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"><link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon"></head>';
+echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"><link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon"><script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script><script type="text/javascript">try {var yaCounter30971061 = new Ya.Metrika({id:30971061});}catch(e){}</script></head>';
 }
 
 
