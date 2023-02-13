@@ -3,18 +3,24 @@ include_once 'setting.php';
 session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
-if ($_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']) {
+$_COOKIE['user'] = FormChars($_COOKIE['user'], 1);
+
+
+
+if (!$_SESSION['USER_LOGIN_IN'] and $_COOKIE['user']) {
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar`, `login`, `group` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
-$_SESSION['USER_LOGIN'] = $Row['login'];
-$_SESSION['USER_ID'] = $Row['id'];
-$_SESSION['USER_NAME'] = $Row['name'];
-$_SESSION['USER_REGDATE'] = $Row['regdate'];
-$_SESSION['USER_EMAIL'] = $Row['email'];
-$_SESSION['USER_COUNTRY'] = UserCountry($Row['country']);
-$_SESSION['USER_AVATAR'] = $Row['avatar'];
-$_SESSION['USER_GROUP'] = $Row['group'];
-$_SESSION['USER_LOGIN_IN'] = 1;
+
+if (!$Row) {
+setcookie('user', '', strtotime('-30 days'), '/');
+unset($_COOKIE['user']);
+MessageSend(1, 'Ошибка авторизации', '/');
 }
+$_SESSION['USER_LOGIN_IN'] = 1;
+foreach ($Row as $Key => $Value) $_SESSION['USER_'.strtoupper($Key)] = $Value;
+}
+
+
+
 
 
 if ($_SERVER['REQUEST_URI'] == '/') {
@@ -59,7 +65,7 @@ else if ($Page == 'parser') include('page/parser.php');
 else if ($Page == 'search') include('page/search.php');
 else if ($Page == 'notice') include('page/notice.php');
 else if ($Page == 'rate') include('form/rate.php');
-
+else if ($Page == 'archive') include('archive/engine.php');
 
 
 else if ($Page == 'news') {
@@ -108,6 +114,52 @@ MessageSend(3, 'Вход в Админ панель выполнен успеш�
 
 
 
+function SendMessage($p1, $p2) {
+global $CONNECT;
+
+	
+	
+	$p1 = FormChars($p1, 1);
+	$p2 = FormChars($p2);
+
+
+	if ($p1 == $_SESSION['USER_LOGIN']) MessageSend(1, 'Вы не можете отправить сообщение самому себе', '/');
+	
+	$ID = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `users` WHERE `login` = '$p1'"));
+	
+if (!$ID) MessageSend(1, 'Пользователь не найден', '/');
+	
+	
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `dialog` WHERE `recive` = $ID[id] AND `send` = $_SESSION[USER_ID] OR `recive` = $_SESSION[USER_ID] AND `send` = $ID[id]"));
+	
+	
+
+if ($Row) {
+
+	$DID = $Row['id'];
+	mysqli_query($CONNECT, "UPDATE `dialog` SET `status` = 0, `send` = $_SESSION[USER_ID], `recive` = $ID[id] WHERE `id` = $Row[id]");
+
+	} else {
+
+
+	mysqli_query($CONNECT, "INSERT INTO `dialog` VALUES ('', 0, $_SESSION[USER_ID], $ID[id])");
+	$DID = mysqli_insert_id($CONNECT);
+	
+	}
+	
+	
+	
+	
+	mysqli_query($CONNECT, "INSERT INTO `message` VALUES ('', $DID, $_SESSION[USER_ID], '$p2', NOW())");
+	
+	
+	
+	}
+
+
+
+
+
 function SendNotice($p1, $p2) {
 global $CONNECT;
 $Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id` FROM `users` WHERE `login` = '$p1'"));
@@ -131,9 +183,15 @@ else if ($p1 == 2) $p1 = 'Подсказка';
 else if ($p1 == 3) $p1 = 'Информация';
 $_SESSION['message'] = '<div class="MessageBlock"><b>'.$p1.'</b>: '.$p2.'</div>';
 if ($p4) {
-if ($p3) $_SERVER['HTTP_REFERER'] = $p3;
-exit(header('Location: '.$_SERVER['HTTP_REFERER']));
+Location($p3);
 }
+}
+
+
+
+function Location ($p1) {
+if (!$p1) $p1 = $_SERVER['HTTP_REFERER'];
+exit(header('Location: '.$p1));
 }
 
 
@@ -164,6 +222,8 @@ else if ($p1 == -1) return 'Заблокирован';
 
 
 function UAccess($p1) {
+global $CONNECT;
+ULogin(1);
 if ($_SESSION['USER_GROUP'] < $p1) MessageSend(1, 'У вас нет прав доступа для просмотра данной страницйы сайта.', '/');
 }
 
@@ -193,7 +253,14 @@ return md5('MRSHIFT'.md5('321'.$p1.'123').md5('678'.$p2.'890'));
 
 
 function Head($p1) {
-echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"><link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon"><script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script><script type="text/javascript">try {var yaCounter30971061 = new Ya.Metrika({id:30971061});}catch(e){}</script></head>';
+echo '<!DOCTYPE html>
+<html><head><meta charset="utf-8" />
+<title>'.$p1.'</title>
+<link href="/resource/style.css" rel="stylesheet">
+<link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon">
+<script src="https://mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+<script type="text/javascript">try { var yaCounter33530238 = new Ya.Metrika({ id:33530238, clickmap:true, trackLinks:true, accurateTrackBounce:true });} catch(e) { }</script>
+</head>';
 }
 
 
@@ -262,6 +329,6 @@ echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></
 }
 
 function Footer () {
-echo '<footer class="footer"><a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на YouTube</a> | <a href="http://vk.com/php.mrshift" target="blank">Моя группа ВК</a> - Пишем свой движок на PHP |  <a href="http://mr-shift.ru" target="blank">Мой блог инвестора</a> | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> ( <a href="https://www.youtube.com/watch?v=nCoD_3Ecfv4" target="blank">Обзор Хостинга</a> ) - Рекомендую!</footer>';
+echo '<footer class="footer"><a href="https://www.youtube.com/channel/UCpEWlcj5rkU1H9vkIf9Lb5g" target="blank">Мой канал на YouTube</a> | <a href="http://vk.com/php.youtube" target="blank">Моя группа ВК</a> - Пишем свой движок на PHP | <a href="/archive">АРХИВЫ С КОДОМ</a> | Сайт размещен на хостинге <a href="http://bit.ly/1udgNg0" target="blank">Time Web</a> ( <a href="https://www.youtube.com/watch?v=nCoD_3Ecfv4" target="blank">Обзор Хостинга</a> ) - Рекомендую!</footer>';
 }
 ?>

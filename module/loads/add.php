@@ -1,5 +1,5 @@
 <?php 
-if ($_SESSION['USER_GROUP'] != 2) MessageSend(2, 'Друзья, я отключил возможность добавления файлов для вас, дабы не возникало горы заявок :) Всем добра.', '/loads');
+UAccess(2);
 
 if ($_SESSION['USER_GROUP'] == 2) $Active = 1;
 else $Active = 0;
@@ -45,7 +45,7 @@ break;
 }
 }
 
-mysqli_query($CONNECT, "INSERT INTO `loads`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], 0, 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]', 0, '')");
+mysqli_query($CONNECT, "INSERT INTO `loads`  VALUES ($MaxId[0], '$_POST[name]', $_POST[cat], '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, $num_img, $num_file, '$_POST[link]', 0, '')");
 MessageSend(2, 'Файл добавлен', '/loads');
 }
 Head('Добавить файл') ?>

@@ -1,5 +1,5 @@
 <?php 
-if ($_SESSION['USER_GROUP'] != 2) MessageSend(2, 'Друзья, я отключил возможность добавления новостей для вас, дабы не возникало горы заявок :) Всем добра.', '/news');
+UAccess(2);
 
 if ($_SESSION['USER_GROUP'] == 2) $Active = 1;
 else $Active = 0;
@@ -7,7 +7,7 @@ if ($_POST['enter'] and $_POST['text'] and $_POST['name'] and $_POST['cat']) {
 $_POST['name'] = FormChars($_POST['name']);
 $_POST['text'] = FormChars($_POST['text']);
 $_POST['cat'] += 0;
-mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], 0, '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, 0, '')");
+mysqli_query($CONNECT, "INSERT INTO `news`  VALUES ('', '$_POST[name]', $_POST[cat], '$_SESSION[USER_LOGIN]', '$_POST[text]', NOW(), $Active, 0, '')");
 MessageSend(2, 'Новость добавлена', '/news');
 }
 Head('Добавить новость') ?>

@@ -1,4 +1,4 @@
-<?php Head('Mr.Shift | Пишем свой движок на PHP') ?>
+<?php Head('Пишем свой движок на PHP') ?>
 <body>
 <div class="wrapper">
 <div class="header"></div>

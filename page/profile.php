@@ -1,5 +1,7 @@
 <?php 
 ULogin(1);
+SendMessage('Tyosensya', 'Привет !');
+
 Head('Профиль пользователя') ?>
 <body>
 <div class="wrapper">

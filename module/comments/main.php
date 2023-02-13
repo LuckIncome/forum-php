@@ -4,6 +4,7 @@ global $CONNECT, $Module, $Page, $Param;
 if ($_SESSION['USER_LOGIN_IN'] != 1) echo '<br><br>Оставлять комменатрии могут только зарегистрированные пользователи.';
 else echo '<br><br><form method="POST" action="/comments/add/module/'.$Page.'/id/'.$Param['id'].'">
 <textarea class="ChatMessage" name="text" placeholder="Текст сообщения" required></textarea>
+<div class="capdiv"><input type="text" class="capinp" name="captcha" placeholder="Капча" maxlength="10" pattern="[0-9]{1,5}" title="Только цифры." required> <img src="/resource/captcha.php" class="capimg" alt="Каптча"></div>
 <br><input type="submit" name="enter" value="Отправить"> <input type="reset" value="Очистить">
 </form>';
 
