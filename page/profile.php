@@ -10,7 +10,7 @@ MessageShow()
 ?>
 <div class="Page">
 
-
+<a href="/account/logout" class="button">Выход</a><br><br>
 <?php 
 echo '
 ID '.$_SESSION['USER_ID'].'

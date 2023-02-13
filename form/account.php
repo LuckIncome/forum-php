@@ -1,4 +1,13 @@
-<?php 
+<?php
+if ($Module == 'logout' and $_SESSION['USER_LOGIN_IN'] == 1) {
+if ($_COOKIE['user']) {
+setcookie('user', '', strtotime('-30 days'), '/');
+unset($_COOKIE['user']);
+}
+session_unset();
+exit(header('Location: /login'));
+}
+
 ULogin(0);
 
 if ($Module == 'register' and $_POST['enter']) {
@@ -53,6 +62,7 @@ $_SESSION['USER_EMAIL'] = $Row['email'];
 $_SESSION['USER_COUNTRY'] = UserCountry($Row['country']);
 $_SESSION['USER_AVATAR'] = $Row['avatar'];
 $_SESSION['USER_LOGIN_IN'] = 1;
+if ($_REQUEST['remember']) setcookie('user', $_POST['password'], strtotime('+30 days'), '/');
 exit(header('Location: /profile'));
 }
 ?>

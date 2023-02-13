@@ -3,7 +3,16 @@ include_once 'setting.php';
 session_start();
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB);
 
-
+if ($_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']) {
+$Row = mysqli_fetch_assoc(mysqli_query($CONNECT, "SELECT `id`, `name`, `regdate`, `email`, `country`, `avatar` FROM `users` WHERE `password` = '$_COOKIE[user]'"));
+$_SESSION['USER_ID'] = $Row['id'];
+$_SESSION['USER_NAME'] = $Row['name'];
+$_SESSION['USER_REGDATE'] = $Row['regdate'];
+$_SESSION['USER_EMAIL'] = $Row['email'];
+$_SESSION['USER_COUNTRY'] = UserCountry($Row['country']);
+$_SESSION['USER_AVATAR'] = $Row['avatar'];
+$_SESSION['USER_LOGIN_IN'] = 1;
+}
 
 
 if ($_SERVER['REQUEST_URI'] == '/') {
