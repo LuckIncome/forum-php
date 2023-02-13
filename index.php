@@ -40,6 +40,7 @@ else if ($Page == 'login') include('page/login.php');
 else if ($Page == 'register') include('page/register.php');
 else if ($Page == 'account') include('form/account.php');
 else if ($Page == 'profile') include('page/profile.php');
+else if ($Page == 'restore') include('page/restore.php');
 
 
 
@@ -77,6 +78,17 @@ else if ($p1 == 4) return 'Канада';
 }
 
 
+function RandomString($p1) {
+$Char = '0123456789abcdefghijklmnopqrstuvwxyz';
+for ($i = 0; $i < $p1; $i ++) $String .= $Char[rand(0, strlen($Char) - 1)];
+return $String;
+}
+
+function HideEmail($p1) {
+$Explode = explode('@', $p1);
+return $Explode[0].'@*****';
+}
+
 
 function FormChars ($p1) {
 return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
@@ -94,7 +106,7 @@ echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><
 
 
 function Menu () {
-if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a>';
+if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
 else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a>';
 echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a>'.$Menu.'</div>';
 }
