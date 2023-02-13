@@ -12,8 +12,16 @@ select {height:30px; margin-bottom: 5px;}
 
 .MenuHead {width: 1000px; height: 60px; background: #35886E}
 .Menu {float:left; display: inline-block;  height: 20px; background: #35886E; padding: 20px; color: #fff; font-size: 20px}
-.Menu:hover {opacity: 0.5; cursor: pointer}
+.Menu:hover, .Cat:hover {opacity: 0.5; cursor: pointer}
+
+.CatHead {width: 1000px; height: 40px; background: #A83B2D}
+.Cat {float:left; display: inline-block;  height: 10px; background: #A83B2D; padding: 10px; color: #fff; font-size: 10px}
+
+
+
+
 .Page {padding: 20px}
+
 
 .footer {height: 10px; background: #35886E; padding: 20px; color: #fff}
 .MessageBlock {border: 1px solid #A83B2D; background: #D44B38; padding: 10px; color: #fff}

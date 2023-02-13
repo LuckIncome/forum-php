@@ -44,6 +44,11 @@ else if ($Page == 'profile') include('page/profile.php');
 else if ($Page == 'restore') include('page/restore.php');
 else if ($Page == 'chat') include('page/chat.php');
 
+else if ($Page == 'news') {
+if (!$Module or $Page == 'news' and $Module == 'category' or $Page == 'news' and $Module == 'main') include('module/news/main.php');
+else if ($Module == 'material') include('module/news/material.php');
+}
+
 
 
 function ULogin($p1) {
@@ -103,14 +108,14 @@ return md5('MRSHIFT'.md5('321'.$p1.'123').md5('678'.$p2.'890'));
 
 
 function Head($p1) {
-echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="resource/style.css" rel="stylesheet"></head>';
+echo '<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.$p1.'</title><meta name="keywords" content="" /><meta name="description" content="" /><link href="/resource/style.css" rel="stylesheet"></head>';
 }
 
 
 function Menu () {
 if ($_SESSION['USER_LOGIN_IN'] != 1) $Menu = '<a href="/register"><div class="Menu">Регистрация</div></a><a href="/login"><div class="Menu">Вход</div></a><a href="/restore"><div class="Menu">Восстановить пароль</div></a>';
 else $Menu = '<a href="/profile"><div class="Menu">Профиль</div></a> <a href="/chat"><div class="Menu">Чат</div></a>';
-echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a>'.$Menu.'</div>';
+echo '<div class="MenuHead"><a href="/"><div class="Menu">Главная</div></a><a href="/news"><div class="Menu">Новости</div></a>'.$Menu.'</div>';
 }
 
 function Footer () {
